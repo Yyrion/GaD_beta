@@ -7,8 +7,7 @@ public class PlayerController : MonoBehaviour
 
     private float maxMovementSpeed = 3f;
     private float jumpForce = 40f;
-    public float inp;
-
+    
     private InputAction moveAction;
 
     private Rigidbody rb;
@@ -17,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+// Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
@@ -28,12 +27,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         moveValue = moveAction.ReadValue<Vector2>();
-        if (moveValue.y > 0.5 && grounded)
+        if (moveValue.y > 0.5)
         {
             rb.AddForce(Vector3.up* jumpForce, ForceMode.Impulse);
         }
-            velocity = Vector3.Slerp(velocity, new Vector3(maxMovementSpeed * moveValue.x, 0, 0), 0.5f);
+        velocity = Vector3.Slerp(velocity, new Vector3(maxMovementSpeed * moveValue.x, 0, 0), 0.5f);
         transform.position += velocity * Time.deltaTime;
-        
     }
 }
