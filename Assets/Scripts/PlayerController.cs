@@ -1,37 +1,60 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Splines.Interpolators;
 
 public class PlayerController : MonoBehaviour
 {
-    private bool grounded;
-
+    const float GRAVITY = 9.81f;
+    const float JUMPFORCE = 1f;
     private float maxMovementSpeed = 3f;
-    private float jumpForce = 40f;
+
+    private bool isJumping = false;
+    private bool isGrounded = false;
     
     private InputAction moveAction;
 
-    private Rigidbody rb;
+    private CharacterController characterController;
 
     private Vector2 moveValue;
 
-    private Vector3 velocity = Vector3.zero;
+    private Vector3 movement = Vector3.zero;
 
 // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Physics.gravity = new Vector3(0, -9.81f, 0);
         moveAction = InputSystem.actions.FindAction("Move");
-        rb = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         moveValue = moveAction.ReadValue<Vector2>();
-        if (moveValue.y > 0.5)
+        if (!isGrounded)
         {
-            rb.AddForce(Vector3.up* jumpForce, ForceMode.Impulse);
+            movement.y = -GRAVITY;
         }
-        velocity = Vector3.Slerp(velocity, new Vector3(maxMovementSpeed * moveValue.x, 0, 0), 0.5f);
-        transform.position += velocity * Time.deltaTime;
+        
+
+        
+        //_xmovement = Vector3.Slerp(_xmovement, new Vector3(maxMovementSpeed * moveValue.x, 0, 0), 0.5f);
+        movement.x = Mathf.Lerp(movement.x, maxMovementSpeed * moveValue.x, 0.5f);
+        characterController.Move(movement * Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, 1.1f))
+        {
+            isGrounded = true;
+
+        } else
+        {
+            isGrounded = false;
+        }
     }
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d10689fcd1e004aa6016497ea67900, type: 3}
+  m_Name: CrystalShard
+  m_EditorClassIdentifier: 
+  Id: 1
+  IsReusable: 0
+  Name: CrystalShard
+  Description: A fragment of a strange crystal. It seems quite heavy. Maybe it could
+    be used as a weapon ? Or maybe it is valuable ?
+  ItemSprite: {fileID: -865009040, guid: ee622631adc28df4995135e901343064, type: 3}
