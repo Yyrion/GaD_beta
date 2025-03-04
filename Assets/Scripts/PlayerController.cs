@@ -7,51 +7,68 @@ using UnityEngine.Splines.Interpolators;
 
 public class PlayerController : MonoBehaviour
 {
-    const float GRAVITY = 9.81f;
-    const float JUMPFORCE = 1f;
+    const float JUMPFORCE = 500f;
+
+    private LayerMask _groundLayer;
     private float maxMovementSpeed = 3f;
 
-    private bool isJumping = false;
     private bool isGrounded = false;
-    
-    private InputAction moveAction;
 
-    private CharacterController characterController;
+    Rigidbody rb;
+
+    private InputAction moveAction;
+    private InputAction jumpAction;
 
     private Vector2 moveValue;
+    private float jumpValue;
+    
 
     private Vector3 movement = Vector3.zero;
 
 // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Physics.gravity = new Vector3(0, -9.81f, 0);
         moveAction = InputSystem.actions.FindAction("Move");
-        characterController = GetComponent<CharacterController>();
+        jumpAction = InputSystem.actions.FindAction("Jump");
+        rb = GetComponent<Rigidbody>();
+        _groundLayer = LayerMask.GetMask("Ground");
     }
 
     // Update is called once per frame
     void Update()
     {
         moveValue = moveAction.ReadValue<Vector2>();
+        jumpValue = jumpAction.ReadValue<float>();
+
+        if (jumpValue > 0.10f)
+        {
+            if (isGrounded)
+            {
+                rb.AddForce(Vector3.up * JUMPFORCE * jumpValue);
+            }
+            
+        }
+
+        if (moveValue.x < 0f)
+        {
+            //RotateLeft
+        } else if (moveValue.x > 0f)
+        {
+            //RotateRight
+        }
+        movement.z = Mathf.Lerp(movement.z, maxMovementSpeed * moveValue.x, 0.5f);
         if (!isGrounded)
         {
-            movement.y = -GRAVITY;
+            movement.z *= 1.05f;
         }
-        
-
-        
-        //_xmovement = Vector3.Slerp(_xmovement, new Vector3(maxMovementSpeed * moveValue.x, 0, 0), 0.5f);
-        movement.x = Mathf.Lerp(movement.x, maxMovementSpeed * moveValue.x, 0.5f);
-        characterController.Move(movement * Time.deltaTime);
+        transform.Translate(movement * Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, 1.1f))
+        if (Physics.Raycast(transform.position, Vector3.down, 1.1f, _groundLayer))
         {
             isGrounded = true;
-
         } else
         {
             isGrounded = false;

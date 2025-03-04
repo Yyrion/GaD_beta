@@ -9,20 +9,26 @@ public class Interactor : MonoBehaviour
 
     [SerializeField] private int _numFound;
 
+    private void Start()
+    {
+        _interactableMask = LayerMask.NameToLayer("Interactable");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Test2");
-        if (other.gameObject.layer == _interactableMask) {
-            Debug.Log("test");
+        if (other.gameObject.layer == _interactableMask.value) {
             var interactableCollider = other.GetComponent<IInteractable>();
+            
             if (interactableCollider != null)
             {
+                Debug.Log("Enter");
                 other.transform.Find("Canvas").gameObject.SetActive(true);
-                /*_interactable = interactableCollider;
+                /*_interactable = interactableCollider;*/
                 if (Keyboard.current.eKey.wasPressedThisFrame)
                 {
+                    Debug.Log("LALALAAAA");
                     interactableCollider.Interact(this);
-                }*/
+                }
             }
         }
     }
@@ -30,14 +36,19 @@ public class Interactor : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         
+        
     }
 
     private void OnTriggerExit(Collider other)
     {
-        var interactableCollider = other.GetComponent<IInteractable>();
-        if (interactableCollider != null)
+        if (other.gameObject.layer == _interactableMask.value)
         {
-            other.transform.Find("Canvas").gameObject.SetActive(false);
+            Debug.Log("Out");
+            var interactableCollider = other.GetComponent<IInteractable>();
+            if (interactableCollider != null)
+            {
+                other.transform.Find("Canvas").gameObject.SetActive(false);
+            }
         }
     }
 }
