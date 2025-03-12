@@ -7,7 +7,7 @@ using UnityEngine.Splines.Interpolators;
 
 public class PlayerController : MonoBehaviour
 {
-    const float JUMPFORCE = 500f;
+    const float JUMPFORCE = 8f;
 
     private LayerMask _groundLayer;
     private float maxMovementSpeed = 3f;
@@ -42,9 +42,11 @@ public class PlayerController : MonoBehaviour
 
         if (jumpValue > 0.10f)
         {
+            Debug.Log("JUMP ?");
             if (isGrounded)
             {
-                rb.AddForce(Vector3.up * JUMPFORCE * jumpValue);
+                Debug.Log("JUMP");
+                rb.AddForce(Vector3.up * JUMPFORCE * jumpValue, ForceMode.Impulse);
             }
             
         }
