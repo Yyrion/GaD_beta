@@ -1,79 +1,84 @@
-using System.Collections;
-using System.Runtime.CompilerServices;
-using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.Splines.Interpolators;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    const float JUMPFORCE = 8f;
+    const float JUMPFORCE = 1f;
+    const float GRAVITY = -9.81f;
 
-    private LayerMask _groundLayer;
     private float maxMovementSpeed = 3f;
 
-    private bool isGrounded = false;
-
-    Rigidbody rb;
+    private CharacterController _characterController;
 
     private InputAction moveAction;
     private InputAction jumpAction;
 
     private Vector2 moveValue;
-    private float jumpValue;
-    
+    private bool isJumping = false;
+    private bool isClimbing = false;
+    private float climbSpeed = 2f;
+    private Vector3 climbDirection = Vector3.up;
 
-    private Vector3 movement = Vector3.zero;
+    private Vector3 velocity;
 
-// Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
-        rb = GetComponent<Rigidbody>();
-        _groundLayer = LayerMask.GetMask("Ground");
+        _characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         moveValue = moveAction.ReadValue<Vector2>();
-        jumpValue = jumpAction.ReadValue<float>();
+        isJumping = jumpAction.ReadValue<float>() > 0.2f;
 
-        if (jumpValue > 0.10f)
+        Vector3 horizontalMovement = new Vector3(moveValue.x, 0, 0) * maxMovementSpeed;
+
+
+        if (_characterController.isGrounded)
         {
-            Debug.Log("JUMP ?");
-            if (isGrounded)
-            {
-                Debug.Log("JUMP");
-                rb.AddForce(Vector3.up * JUMPFORCE * jumpValue, ForceMode.Impulse);
+            if (isJumping)
+            {   
+                velocity.y = Mathf.Sqrt(JUMPFORCE * -2f * GRAVITY);
             }
-            
+            else if (velocity.y < 0)
+            {
+                velocity.y = -2f;
+            }
+        }
+        else
+        {
+            horizontalMovement *= 1.2f;
         }
 
-        if (moveValue.x < 0f)
+        velocity.y += GRAVITY * Time.deltaTime;
+
+        if (isClimbing)
         {
-            //RotateLeft
-        } else if (moveValue.x > 0f)
-        {
-            //RotateRight
+            velocity.y = 0;
+
+            velocity = climbDirection * moveValue.y * climbSpeed;
+
+            _characterController.Move(velocity * Time.deltaTime);
+
+            return;
         }
-        movement.z = Mathf.Lerp(movement.z, maxMovementSpeed * moveValue.x, 0.5f);
-        if (!isGrounded)
-        {
-            movement.z *= 1.05f;
-        }
-        transform.Translate(movement * Time.deltaTime);
+
+        Vector3 finalMovement = horizontalMovement + new Vector3(0, velocity.y, 0);
+        _characterController.Move(finalMovement * Time.deltaTime);
     }
 
-    private void FixedUpdate()
+    public void StartClimbing(Transform enter, Transform top, Transform bottom)
     {
-        if (Physics.Raycast(transform.position, Vector3.down, 1.1f, _groundLayer))
+        isClimbing = true;
+    }
+
+    public void EndClimbing()
+    {
+        if (isClimbing)
         {
-            isGrounded = true;
-        } else
-        {
-            isGrounded = false;
+            isClimbing = false;
         }
     }
 }

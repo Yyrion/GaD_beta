@@ -12,42 +12,4 @@ public class Interactor : MonoBehaviour
     {
         _interactableMask = LayerMask.NameToLayer("Interactable");
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == _interactableMask.value) {
-            var interactableCollider = other.GetComponent<IInteractable>();
-            
-            if (interactableCollider != null)
-            {
-                Debug.Log("Enter");
-                other.transform.Find("Canvas").gameObject.SetActive(true);
-                /*_interactable = interactableCollider;*/
-                if (Keyboard.current.eKey.wasPressedThisFrame)
-                {
-                    Debug.Log("LALALAAAA");
-                    interactableCollider.Interact(this);
-                }
-            }
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        
-        
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == _interactableMask.value)
-        {
-            Debug.Log("Out");
-            var interactableCollider = other.GetComponent<IInteractable>();
-            if (interactableCollider != null)
-            {
-                other.transform.Find("Canvas").gameObject.SetActive(false);
-            }
-        }
-    }
 }

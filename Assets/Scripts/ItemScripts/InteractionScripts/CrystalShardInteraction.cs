@@ -1,14 +1,48 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CrystalShardInteraction : MonoBehaviour, IInteractable
 {
-    public string InteractionPrompt => throw new System.NotImplementedException();
+    private GameObject _actionCanvas;
+    private bool _canInteract = false;
 
-    public string InteractionMessage => throw new System.NotImplementedException();
+    private void Awake()
+    {
+        _actionCanvas = transform.Find("Canvas").gameObject;
+    }
 
-    public bool Interact(Interactor interactor)
+    private void Update()
+    {
+        if (_canInteract)
+        {
+            if (Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                Interact();
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    public void Interact()
     {
         Debug.Log("CrystalShard");
-        return true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_actionCanvas != null && (other.tag == "Player"))
+        {
+            _actionCanvas.SetActive(true);
+            _canInteract = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (_actionCanvas != null && (other.tag == "Player"))
+        {
+            _actionCanvas.SetActive(false);
+            _canInteract = false;
+        }
     }
 }
