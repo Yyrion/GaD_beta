@@ -8,7 +8,7 @@ public class RopeSegmentTrigger : MonoBehaviour, IInteractable
     PlayerController _controller;
     private void Start()
     {
-        _rope = transform.parent.GetComponent<Rope>();
+        _rope = transform.parent.Find("Origin").GetComponent<Rope>();
         _controller = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
@@ -40,6 +40,15 @@ public class RopeSegmentTrigger : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        _controller.StartClimbing(transform, _rope.StartRope, _rope.EndRope);
+        if (!_controller.IsClimbing)
+        {
+            _controller.IsClimbing = true;
+            _controller.StartClimbing(transform, _rope.StartRope, _rope.EndRope);
+        }
+        else
+        {
+            _controller.EndClimbing();
+        }
+        
     }
 }

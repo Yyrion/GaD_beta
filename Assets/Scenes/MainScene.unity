@@ -245,6 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5bc61f9ca36b84b88561855fd3d92d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsClimbing: 0
 --- !u!114 &13618336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,7 +770,8 @@ GameObject:
   - component: {fileID: 577474201}
   - component: {fileID: 577474200}
   - component: {fileID: 577474199}
-  m_Layer: 0
+  - component: {fileID: 577474202}
+  m_Layer: 6
   m_Name: Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -806,11 +808,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2, y: 2, z: 7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &577474200
 MeshRenderer:
@@ -835,7 +837,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: b1079d9c87a458a47b4f73369e08cd98, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -865,6 +867,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577474197}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &577474202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577474197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da48f0f06da9c14dbe5538d93a44176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartRope: {fileID: 0}
+  EndRope: {fileID: 0}
 --- !u!1 &589041574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,7 +1237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &969475802
 Transform:
   m_ObjectHideFlags: 0
@@ -1231,7 +1247,7 @@ Transform:
   m_GameObject: {fileID: 969475801}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.09, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1525,7 +1541,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1187451669}
   - component: {fileID: 1187451671}
-  - component: {fileID: 1187451670}
   m_Layer: 0
   m_Name: Rope
   m_TagString: Untagged
@@ -1551,20 +1566,6 @@ Transform:
   - {fileID: 1402005099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1187451670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1187451668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4da48f0f06da9c14dbe5538d93a44176, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartRope: {fileID: 0}
-  EndRope: {fileID: 0}
 --- !u!120 &1187451671
 LineRenderer:
   serializedVersion: 2
@@ -1668,7 +1669,7 @@ LineRenderer:
     textureMode: 0
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
-    generateLightingData: 0
+    generateLightingData: 1
   m_MaskInteraction: 0
   m_UseWorldSpace: 1
   m_Loop: 0
@@ -1690,7 +1691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1402005099
 Transform:
   m_ObjectHideFlags: 0
@@ -2172,6 +2173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5bc61f9ca36b84b88561855fd3d92d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsClimbing: 0
 --- !u!114 &1586336630
 MonoBehaviour:
   m_ObjectHideFlags: 0

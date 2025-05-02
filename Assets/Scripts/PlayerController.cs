@@ -15,9 +15,11 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 moveValue;
     private bool isJumping = false;
-    private bool isClimbing = false;
+    public bool IsClimbing = false;
     private float climbSpeed = 2f;
     private Vector3 climbDirection = Vector3.up;
+    private Vector3 climbMaxHeight;
+    private Vector3 climbMinHeight;
 
     private Vector3 velocity;
 
@@ -54,13 +56,20 @@ public class PlayerController : MonoBehaviour
 
         velocity.y += GRAVITY * Time.deltaTime;
 
-        if (isClimbing)
+        if (IsClimbing)
         {
             velocity.y = 0;
 
             velocity = climbDirection * moveValue.y * climbSpeed;
 
             _characterController.Move(velocity * Time.deltaTime);
+            if (climbMaxHeight.y < transform.position.y)
+            {
+                transform.position = new Vector3(transform.position.x, climbMaxHeight.y, transform.position.z);
+            } if (climbMinHeight.y > transform.position.y)
+            {
+                transform.position = new Vector3(transform.position.x, climbMinHeight.y, transform.position.z);
+            }
 
             return;
         }
@@ -71,14 +80,19 @@ public class PlayerController : MonoBehaviour
 
     public void StartClimbing(Transform enter, Transform top, Transform bottom)
     {
-        isClimbing = true;
+        _characterController.enabled = false;
+        transform.position = enter.position + Vector3.up*0.5f + Vector3.right*0.45f;
+        _characterController.enabled = true;
+        IsClimbing = true;
+        climbMaxHeight = top.position + Vector3.up;
+        climbMinHeight = bottom.position;
     }
 
     public void EndClimbing()
     {
-        if (isClimbing)
+        if (IsClimbing)
         {
-            isClimbing = false;
+            IsClimbing = false;
         }
     }
 }
