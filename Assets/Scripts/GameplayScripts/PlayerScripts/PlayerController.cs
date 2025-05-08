@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     const float JUMPFORCE = 1f;
     const float GRAVITY = -9.81f;
+    const float MAXFALLSPEED = -15f;
 
     private float maxMovementSpeed = 3f;
 
@@ -22,12 +23,17 @@ public class PlayerController : MonoBehaviour
     private Vector3 climbMinHeight;
 
     private Vector3 velocity;
+    private float _fallVelocity;
+    private bool isGroundedLastFrame;
+
+    private HealthManager _healthManager;
 
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
         _characterController = GetComponent<CharacterController>();
+        _healthManager = GetComponent<HealthManager>();
     }
 
     void Update()
@@ -40,8 +46,18 @@ public class PlayerController : MonoBehaviour
 
         if (_characterController.isGrounded)
         {
+            if (!isGroundedLastFrame)
+            {
+                if (_fallVelocity < MAXFALLSPEED)
+                {
+                    float damage = Mathf.Abs(_fallVelocity + MAXFALLSPEED) * 3;
+                    _healthManager.TakeDamage(Mathf.RoundToInt(damage));
+                }
+                _fallVelocity = 0f;
+            }
+
             if (isJumping)
-            {   
+            {
                 velocity.y = Mathf.Sqrt(JUMPFORCE * -2f * GRAVITY);
             }
             else if (velocity.y < 0)
@@ -52,7 +68,11 @@ public class PlayerController : MonoBehaviour
         else
         {
             horizontalMovement *= 1.2f;
+            _fallVelocity += GRAVITY * Time.deltaTime;
         }
+
+        isGroundedLastFrame = _characterController.isGrounded;
+
 
         velocity.y += GRAVITY * Time.deltaTime;
 
@@ -76,7 +96,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 finalMovement = horizontalMovement + new Vector3(0, velocity.y, 0);
         _characterController.Move(finalMovement * Time.deltaTime);
-    }
+        
+}
 
     public void StartClimbing(Transform enter, Transform top, Transform bottom)
     {
