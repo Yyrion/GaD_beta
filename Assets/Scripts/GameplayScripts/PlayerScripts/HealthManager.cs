@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
-    private int maxHealth = 100;
+    //private int maxHealth = 100;
     private int health = 100;
 
     public HealthUI HealthUI;

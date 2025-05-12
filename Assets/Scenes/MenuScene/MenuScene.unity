@@ -443,7 +443,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 327514174}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 941465215}
+        m_TargetAssemblyTypeName: MainMenuFunctions, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &327514174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,8 +798,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0.7372549, g: 0.9411765, b: 0.9411765, a: 1}
-  fadeDuration: 0.3
+  hoverColor: {r: 0.8792453, g: 0.66222334, b: 0.31022426, a: 1}
+  fadeDuration: 0.1
 --- !u!1 &941465210
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,8 +1204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0.7357423, g: 0.93962264, b: 0.93962264, a: 1}
-  fadeDuration: 0.3
+  hoverColor: {r: 0.88235295, g: 0.6627451, b: 0.3137255, a: 1}
+  fadeDuration: 0.1
 --- !u!1 &1049242568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,8 +1331,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Greed and Darkness
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3a055636b997a4c4bad40dbea0196c21, type: 2}
+  m_sharedMaterial: {fileID: 4661909969247932896, guid: 3a055636b997a4c4bad40dbea0196c21, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1329,12 +1341,12 @@ MonoBehaviour:
     rgba: 4293059298
   m_fontColor: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 1}
   m_enableVertexGradient: 1
-  m_colorMode: 1
+  m_colorMode: 3
   m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 0.76792455, g: 1, b: 0.99435216, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 0.76792455, g: 1, b: 0.99435216, a: 1}
+    topLeft: {r: 0.7056604, g: 0.6950348, b: 0.5951513, a: 1}
+    topRight: {r: 0.9245283, g: 0.70481724, b: 0.34015653, a: 1}
+    bottomLeft: {r: 1, g: 0.6767517, b: 0.1566037, a: 1}
+    bottomRight: {r: 0.8490566, g: 0.7280395, b: 0, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
@@ -1546,8 +1558,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0.7372549, g: 0.9411765, b: 0.9411765, a: 1}
-  fadeDuration: 0.3
+  hoverColor: {r: 0.88235295, g: 0.6627451, b: 0.3137255, a: 1}
+  fadeDuration: 0.1
 --- !u!1 &1947866814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,8 +1966,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0.7372549, g: 0.9411765, b: 0.9411765, a: 1}
-  fadeDuration: 0.3
+  hoverColor: {r: 0.88235295, g: 0.6627451, b: 0.3137255, a: 1}
+  fadeDuration: 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

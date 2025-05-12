@@ -7,7 +7,6 @@ public class Rope : MonoBehaviour, IInteractable
     private LineRenderer _lineRenderer;
     public Transform StartRope;
     public Transform EndRope;
-    private bool _isActive = false;
     private bool _canInteract = false;
 
     void Start()
@@ -47,7 +46,6 @@ public class Rope : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        _isActive = true;
         _lineRenderer.enabled = true;
         StartRope.gameObject.SetActive(true);
         EndRope.gameObject.SetActive(true);
