@@ -9,5 +9,6 @@ public class HealthUI : MonoBehaviour
         healthbar = GetComponent<Image>();
     }
 
-    public void UpdateHealth(int currentHealth) {  healthbar.fillAmount = currentHealth/100; }
+    public void UpdateHealth(int currentHealth) {
+        healthbar.fillAmount = currentHealth/100f; }
 }

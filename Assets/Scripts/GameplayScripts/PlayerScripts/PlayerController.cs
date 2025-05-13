@@ -5,7 +5,6 @@ public class PlayerController : MonoBehaviour
 {
     const float JUMPFORCE = 1f;
     const float GRAVITY = -9.81f;
-    const float MAXFALLSPEED = -15f;
 
     private float maxMovementSpeed = 3f;
 
@@ -23,8 +22,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 climbMinHeight;
 
     private Vector3 velocity;
-    private float _fallVelocity;
     private bool isGroundedLastFrame;
+
+    private float fallStartY;
+    private bool isFalling = false;
 
     private HealthManager _healthManager;
 
@@ -43,17 +44,20 @@ public class PlayerController : MonoBehaviour
 
         Vector3 horizontalMovement = new Vector3(moveValue.x, 0, 0) * maxMovementSpeed;
 
+        // Chute détectée : on stocke le début
+        if (!_characterController.isGrounded && !isFalling && !IsClimbing)
+        {
+            isFalling = true;
+            fallStartY = transform.position.y;
+        }
 
         if (_characterController.isGrounded)
         {
-            if (!isGroundedLastFrame)
+            if (isFalling)
             {
-                if (_fallVelocity < MAXFALLSPEED)
-                {
-                    float damage = Mathf.Abs(_fallVelocity + MAXFALLSPEED) * 3;
-                    _healthManager.TakeDamage(Mathf.RoundToInt(damage));
-                }
-                _fallVelocity = 0f;
+                float fallDistance = fallStartY - transform.position.y;
+                ApplyFallDamage(fallDistance);
+                isFalling = false;
             }
 
             if (isJumping)
@@ -65,44 +69,39 @@ public class PlayerController : MonoBehaviour
                 velocity.y = -2f;
             }
         }
-        else
+        else if (!IsClimbing)
         {
             horizontalMovement *= 1.2f;
-            _fallVelocity += GRAVITY * Time.deltaTime;
         }
-
-        isGroundedLastFrame = _characterController.isGrounded;
-
 
         velocity.y += GRAVITY * Time.deltaTime;
 
         if (IsClimbing)
         {
             velocity.y = 0;
-
             velocity = climbDirection * moveValue.y * climbSpeed;
-
             _characterController.Move(velocity * Time.deltaTime);
+
             if (climbMaxHeight.y < transform.position.y)
-            {
                 transform.position = new Vector3(transform.position.x, climbMaxHeight.y, transform.position.z);
-            } if (climbMinHeight.y > transform.position.y)
-            {
+
+            if (climbMinHeight.y > transform.position.y)
                 transform.position = new Vector3(transform.position.x, climbMinHeight.y, transform.position.z);
-            }
 
             return;
         }
 
         Vector3 finalMovement = horizontalMovement + new Vector3(0, velocity.y, 0);
         _characterController.Move(finalMovement * Time.deltaTime);
-        
-}
+
+        isGroundedLastFrame = _characterController.isGrounded;
+    }
 
     public void StartClimbing(Transform enter, Transform top, Transform bottom)
     {
         _characterController.enabled = false;
-        transform.position = enter.position + Vector3.up*0.5f + Vector3.right*0.45f;
+        Physics.IgnoreLayerCollision(9, 7, true);
+        transform.position = enter.position + Vector3.up * 0.5f;
         _characterController.enabled = true;
         IsClimbing = true;
         climbMaxHeight = top.position + Vector3.up;
@@ -114,6 +113,22 @@ public class PlayerController : MonoBehaviour
         if (IsClimbing)
         {
             IsClimbing = false;
+            Physics.IgnoreLayerCollision(9, 7, false);
+        }
+    }
+
+    private void ApplyFallDamage(float fallDistance)
+    {
+
+        float damageStartHeight = 3f; // hauteur minimale avant dégâts
+        float maxHeight = 10f;        // hauteur à laquelle les dégâts sont maximaux
+        float maxDamage = 100f;
+
+        if (fallDistance > damageStartHeight)
+        {
+            float t = Mathf.InverseLerp(damageStartHeight, maxHeight, fallDistance);
+            float damage = Mathf.Pow(t, 2.5f) * maxDamage;
+            _healthManager.TakeDamage(Mathf.RoundToInt(damage));
         }
     }
 }
