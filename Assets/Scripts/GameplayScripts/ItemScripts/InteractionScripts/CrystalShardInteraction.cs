@@ -15,7 +15,7 @@ public class CrystalShardInteraction : MonoBehaviour, IInteractable
     {
         if (_canInteract)
         {
-            if (Keyboard.current.eKey.wasPressedThisFrame)
+            if (Keyboard.current.fKey.wasPressedThisFrame)
             {
                 Interact();
                 Destroy(gameObject);

@@ -22,7 +22,7 @@ public class Rope : MonoBehaviour, IInteractable
     {
         if (_canInteract)
         {
-            if (Keyboard.current.eKey.wasPressedThisFrame)
+            if (Keyboard.current.fKey.wasPressedThisFrame)
             {
                 Interact();
             }

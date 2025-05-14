@@ -1,38 +1,15 @@
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
-[System.Serializable]
-public class InventorySlot
+[CreateAssetMenu(menuName = "Inventory System/Inventory Slot")]
+public class InventorySlot : ScriptableObject
 {
-    [SerializeField] private InventoryItemData _item;
-    [SerializeField] private int _stackSize;
+    public TextMeshPro AmountText;
+    public InventoryItemData ItemData;
+    public int Amount;
 
-    public InventoryItemData Item => _item;
-    public int StackSize => _stackSize;
-
-    public InventorySlot(InventoryItemData item, int stackSize = 0)
+    void Actualize()
     {
-        _item = item;
-        _stackSize = stackSize;
-    }
-
-    public InventorySlot()
-    {
-        _item = null;
-        _stackSize = 0;
-    }
-
-    public void Add(int amount)
-    {
-        _stackSize += amount;
-    }
-
-    public void Remove(int amount)
-    {
-        _stackSize -= amount;
-        if (_stackSize < 0)
-        {
-            _stackSize = 0;
-        }
+        AmountText.text = $"{Amount}";
     }
 }

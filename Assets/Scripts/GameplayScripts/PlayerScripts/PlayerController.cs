@@ -10,9 +10,12 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController _characterController;
 
+    //Input Action
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction openInvAction;
 
+    //Movement
     private Vector2 moveValue;
     private bool isJumping = false;
     public bool IsClimbing = false;
@@ -22,17 +25,24 @@ public class PlayerController : MonoBehaviour
     private Vector3 climbMinHeight;
 
     private Vector3 velocity;
-    private bool isGroundedLastFrame;
 
+    //Fall and Gravity
     private float fallStartY;
     private bool isFalling = false;
+    private bool isGroundedLastFrame;
 
+    //Health
     private HealthManager _healthManager;
+
+    //Inventory
+    public GameObject inventoryPanel;
+    private bool inventoryOpen = false;
 
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
+        openInvAction = InputSystem.actions.FindAction("OpenInventory");
         _characterController = GetComponent<CharacterController>();
         _healthManager = GetComponent<HealthManager>();
     }
@@ -49,6 +59,12 @@ public class PlayerController : MonoBehaviour
         {
             isFalling = true;
             fallStartY = transform.position.y;
+        }
+
+        if (openInvAction.triggered)
+        {
+            inventoryOpen = !inventoryOpen;
+            inventoryPanel.SetActive(inventoryOpen);
         }
 
         if (_characterController.isGrounded)

@@ -19,7 +19,7 @@ public class LadderInteraction : MonoBehaviour
     {
         if (_canInteract)
         {
-            if (Keyboard.current.eKey.wasPressedThisFrame)
+            if (Keyboard.current.fKey.wasPressedThisFrame)
             {
                 Interact();
             }
